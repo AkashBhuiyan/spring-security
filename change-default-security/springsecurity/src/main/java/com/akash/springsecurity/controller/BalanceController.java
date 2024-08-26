@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 
 @RestController
-public class WelcomeController {
-    @GetMapping("/welcome")
-    public  String sayWelcome () {
-        return "Welcome to Spring Application with security";
+public class BalanceController {
+    @GetMapping("/myBalance")
+    public  String getBalanceDetails () {
+        return "Here are the balance details from the DB";
     }
 }
