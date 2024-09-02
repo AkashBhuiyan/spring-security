@@ -17,9 +17,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
  * Date: 26/8/24
  */
 
-@Profile("!prod")
+@Profile("prod")
 @Configuration
-public class ProjectSecurityConfig {
+public class ProjectSecurityProdConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
