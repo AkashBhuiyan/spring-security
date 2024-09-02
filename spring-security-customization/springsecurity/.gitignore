@@ -31,6 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-change-default-security/.idea
-custom-authentication-provider/.idea
