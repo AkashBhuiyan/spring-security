@@ -1,5 +1,6 @@
 package com.akash.springsecurity.config;
 
+import com.akash.springsecurity.exceptionhandling.CustomAccessDeniedHandler;
 import com.akash.springsecurity.exceptionhandling.CustomBasicAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,7 @@ public class ProjectSecurityConfig {
                 .requestMatchers("/notices","/contact", "/register").permitAll());
         http.formLogin(withDefaults());
         http.httpBasic(httpBasicConfigurer -> httpBasicConfigurer.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+        http.exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer.accessDeniedHandler(new CustomAccessDeniedHandler()));
         //http.exceptionHandling(httpBasicConfigurer -> httpBasicConfigurer.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint())); // Its a global config, which can handle all scenario's. But here we will use httpBasic
         return http.build();
     }
