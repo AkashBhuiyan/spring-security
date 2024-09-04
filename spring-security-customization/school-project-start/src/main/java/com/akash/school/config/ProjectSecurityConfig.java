@@ -21,10 +21,11 @@ public class ProjectSecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf((csrf) -> csrf.disable())
-                .authorizeHttpRequests((requests) -> requests.requestMatchers("/dashboard").permitAll()
+                .authorizeHttpRequests((requests) -> requests.requestMatchers("/dashboard").authenticated()
                         .requestMatchers("/", "/home", "/holidays/**", "/contact", "/saveMsg",
-                                "/courses", "/about", "/assets/**").permitAll())
-                .formLogin(Customizer.withDefaults())
+                                "/courses", "/about", "/assets/**","/login/**").permitAll())
+                .formLogin(flc -> flc.loginPage("/login").usernameParameter("userId").passwordParameter("secretPassword")
+                        .defaultSuccessUrl("/dashboard"))
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
@@ -33,10 +34,12 @@ public class ProjectSecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user = User.withUsername("user")
-                .password("{noop}Akash@12345").authorities("read").build();
+                .password("{noop}Akash#3344").authorities("read")
+                .build();
         UserDetails admin = User.withUsername("admin")
-                .password("{bcrypt}$2a$12$V4zDJ/Sgigm0wSy0h/wt7eRq5yuCJZCYsG8GBiVAhoTSAKtI.RHUm")
-                .authorities("admin").build();
+                .password("{bcrypt}$2a$12$WEessZq4WfJlx9x8qGe6C.8N1S7rCJdAn0jZthwvKhoZYIY7/JKvW")
+                .authorities("admin")
+                .build();
         return new InMemoryUserDetailsManager(user, admin);
     }
 
