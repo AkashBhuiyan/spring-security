@@ -34,6 +34,10 @@ public class ProjectSecurityConfig {
                 .formLogin(flc -> flc.loginPage("/login").usernameParameter("userId").passwordParameter("secretPassword")
                         .defaultSuccessUrl("/dashboard").failureUrl("/login?error=true")
                         .successHandler(customAuthenticationSuccessHandler).failureHandler(customAuthenticationFailureHandler))
+                .logout(logoutConfig -> logoutConfig.logoutSuccessUrl("/login?logout=true")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID"))
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
