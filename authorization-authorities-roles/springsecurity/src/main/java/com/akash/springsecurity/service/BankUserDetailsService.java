@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Author: akash
@@ -25,7 +26,7 @@ public class BankUserDetailsService implements UserDetailsService {
     private final CustomerRepository customerRepository;
 
     /**
-     * @param username the username identifying the user whose data is required. 
+     * @param username the username identifying the user whose data is required.
      * @return
      * @throws UsernameNotFoundException
      */
@@ -33,7 +34,9 @@ public class BankUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Customer customer = customerRepository.findByEmail(username).orElseThrow(() -> new
                 UsernameNotFoundException("User details not found for the user: " + username));
-        List<GrantedAuthority> grantedAuthorities = List.of(new SimpleGrantedAuthority(customer.getRole()));
+        List<GrantedAuthority> grantedAuthorities = customer.getAuthorities().stream()
+                .map(authority -> new SimpleGrantedAuthority(authority.getName()))
+                .collect(Collectors.toList());
         return new User(customer.getEmail(), customer.getPwd(), grantedAuthorities);
     }
 }
