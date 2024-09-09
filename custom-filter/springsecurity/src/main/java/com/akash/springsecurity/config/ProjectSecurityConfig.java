@@ -3,6 +3,7 @@ package com.akash.springsecurity.config;
 import com.akash.springsecurity.exceptionhandling.CustomAccessDeniedHandler;
 import com.akash.springsecurity.exceptionhandling.CustomBasicAuthenticationEntryPoint;
 import com.akash.springsecurity.filter.AuthoritiesLoggingAfterFilter;
+import com.akash.springsecurity.filter.AuthoritiesLoggingAtFilter;
 import com.akash.springsecurity.filter.CsrfCookieFilter;
 import com.akash.springsecurity.filter.RequestValidationBeforeFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -58,6 +59,7 @@ public class ProjectSecurityConfig {
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
                 .requiresChannel(channelRequestMatcherRegistry -> channelRequestMatcherRegistry.anyRequest().requiresInsecure()) // only HTTP
                 .authorizeHttpRequests((requests) -> requests
                         /*.requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
