@@ -32,7 +32,9 @@ export class DashboardService {
   }
 
   saveMessage(contact : Contact){
-    return this.http.post(environment.rooturl + AppConstants.CONTACT_API_URL,contact,{ observe: 'response', withCredentials: true});
+    var contacts = [];
+    contacts.push(contact);
+    return this.http.post(environment.rooturl + AppConstants.CONTACT_API_URL, contacts, { observe: 'response', withCredentials: true});
   }
 
 }
