@@ -3,6 +3,7 @@ package com.akash.springsecurity.controller;
 import com.akash.springsecurity.entity.Contact;
 import com.akash.springsecurity.repository.ContactRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /***
  * Akash Bhuiyan, 20/8/24
@@ -24,15 +24,19 @@ public class ContactController {
     private final ContactRepository contactRepository;
 
     @PostMapping("/contact")
-    @PreFilter("filterObject.contactName!= 'Test'")
-    public Contact saveContactInquiryDetails(@RequestBody List<Contact> contacts) {
+    //@PreFilter("filterObject.contactName!= 'Test'")
+    @PostFilter("filterObject.contactName!= 'Test'")
+    public List<Contact> saveContactInquiryDetails(@RequestBody List<Contact> contacts) {
+        List<Contact> contactList = new ArrayList<>();
         if(!contacts.isEmpty()) {
             Contact contact = contacts.getFirst();
             contact.setContactId(getServiceReqNumber());
             contact.setCreateDt(new Date(System.currentTimeMillis()));
-            return contactRepository.save(contact);
+            Contact savedContact = contactRepository.save(contact);
+            contactList.add(savedContact);
+            return contactList;
         } else {
-            return null;
+            return contactList;
         }
     }
 
