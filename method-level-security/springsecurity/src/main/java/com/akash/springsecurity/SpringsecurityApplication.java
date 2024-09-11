@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 @SpringBootApplication
 @EnableWebSecurity(debug = false) // must be disable in production
+@EnableMethodSecurity(jsr250Enabled = true, securedEnabled = true)
 /*@EnableJpaRepositories("com.akash.repository")
 @EntityScan("com.akash.entity")*/
 // @ComponentScan("com.akash.springsecurity.controller") //If using a different location from the main package, define the location here.
