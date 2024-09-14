@@ -35,8 +35,8 @@ public class ProjectSecurityConfig {
     }
 
     private ClientRegistration githubClientRegistration() {
-        return CommonOAuth2Provider.GITHUB.getBuilder("github").clientId("")
-                .clientSecret("").build();
+        return CommonOAuth2Provider.GITHUB.getBuilder("github").clientId("Ov23li6P3hg0tEr7KzEONo")
+                .clientSecret("8ea08d5231ef75212d326581aef2ca96ec13696d").build();
     }
 
     private ClientRegistration facebookClientRegistration() {
