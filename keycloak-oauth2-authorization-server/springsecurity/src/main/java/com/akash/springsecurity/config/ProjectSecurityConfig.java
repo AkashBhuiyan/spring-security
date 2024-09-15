@@ -3,8 +3,6 @@ package com.akash.springsecurity.config;
 import com.akash.springsecurity.exceptionhandling.CustomAccessDeniedHandler;
 import com.akash.springsecurity.filter.CsrfCookieFilter;
 import jakarta.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -31,14 +29,14 @@ import java.util.Collections;
 @Configuration
 public class ProjectSecurityConfig {
 
-    @Value("${spring.security.oauth2.resourceserver.opaque.introspection-uri}")
+    /*@Value("${spring.security.oauth2.resourceserver.opaque.introspection-uri}")
     String introspectionUri;
 
     @Value("${spring.security.oauth2.resourceserver.opaque.introspection-client-id}")
     String clientId;
 
     @Value("${spring.security.oauth2.resourceserver.opaque.introspection-client-secret}")
-    String clientSecret;
+    String clientSecret;*/
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -77,11 +75,11 @@ public class ProjectSecurityConfig {
                         .requestMatchers("/myCards").hasRole("USER")
                         .requestMatchers("/user").authenticated()
                         .requestMatchers("/notices", "/contact", "/register").permitAll());
-        /*http.oauth2ResourceServer(resourceServerConfigurer -> resourceServerConfigurer.jwt(jwtConfigurer ->
-                jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)));*/
-        http.oauth2ResourceServer(resourceServerConfigurer -> resourceServerConfigurer.opaqueToken(opaqueTokenConfigurer ->
+        http.oauth2ResourceServer(resourceServerConfigurer -> resourceServerConfigurer.jwt(jwtConfigurer ->
+                jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)));
+        /*http.oauth2ResourceServer(resourceServerConfigurer -> resourceServerConfigurer.opaqueToken(opaqueTokenConfigurer ->
                 opaqueTokenConfigurer.authenticationConverter(new KeycloakOpaqueRoleConverter())
-                        .introspectionUri(this.introspectionUri).introspectionClientCredentials(this.clientId, this.clientSecret)));
+                        .introspectionUri(this.introspectionUri).introspectionClientCredentials(this.clientId, this.clientSecret)));*/
         http.exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer.accessDeniedHandler(new CustomAccessDeniedHandler()));
         //http.exceptionHandling(httpBasicConfigurer -> httpBasicConfigurer.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint())); // Its a global config, which can handle all scenario's. But here we will use httpBasic
         return http.build();
