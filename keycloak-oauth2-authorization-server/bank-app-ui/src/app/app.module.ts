@@ -15,7 +15,7 @@ import {BalanceComponent} from './components/balance/balance.component';
 import {LoansComponent} from './components/loans/loans.component';
 import {CardsComponent} from './components/cards/cards.component';
 import {HomeComponent} from './components/home/home.component';
-import {KeycloakService} from 'keycloak-angular';
+import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 
 
 function initializeKeycloak(keycloak: KeycloakService) {
@@ -49,6 +49,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     HomeComponent
   ],
   imports: [
+    KeycloakAngularModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
