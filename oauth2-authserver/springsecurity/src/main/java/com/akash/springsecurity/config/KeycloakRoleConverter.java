@@ -7,8 +7,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /***
@@ -22,12 +20,11 @@ public class KeycloakRoleConverter implements Converter<Jwt, Collection<GrantedA
      */
     @Override
     public Collection<GrantedAuthority> convert(Jwt source) {
-        Map<String, Object> realmAccess = (Map<String, Object>) source.getClaims().get("realm_access");
-        if (realmAccess == null || realmAccess.isEmpty()) {
+        ArrayList<String> roles = (ArrayList<String>) source.getClaims().get("scope");
+        if (roles == null || roles.isEmpty()) {
             return new ArrayList<>();
         }
-        Collection<GrantedAuthority> returnValue = ((List<String>) realmAccess.get("roles"))
-                .stream().map(roleName -> "ROLE_" + roleName)
+        Collection<GrantedAuthority> returnValue = roles.stream().map(roleName -> "ROLE_" + roleName)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
         return returnValue;
