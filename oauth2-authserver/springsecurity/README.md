@@ -1,0 +1,1 @@
+docker run -p 3306:3306 --name springsecuritydb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=springsecuritydb -d mysql
