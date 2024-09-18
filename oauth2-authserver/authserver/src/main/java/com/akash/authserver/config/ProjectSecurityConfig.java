@@ -107,6 +107,15 @@ public class ProjectSecurityConfig {
                         .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED).build())
                 .build();
 
+        RegisteredClient introspectClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("bankintrospect")
+                .clientSecret("{noop}RANDOMVALUE3")
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .scopes(scopeConfig -> scopeConfig.addAll(List.of(OidcScopes.OPENID)))
+                .tokenSettings(TokenSettings.builder().accessTokenTimeToLive(Duration.ofMinutes(10))
+                        .accessTokenFormat(OAuth2TokenFormat.REFERENCE).build()).build();
+
         RegisteredClient authCodeClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("bankclient")
                 .clientSecret("{noop}RANDOMVALUE2")
@@ -134,7 +143,7 @@ public class ProjectSecurityConfig {
                         .refreshTokenTimeToLive(Duration.ofHours(8)).reuseRefreshTokens(false)
                         .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED).build()).build();
 
-        return new InMemoryRegisteredClientRepository(oidcClient, authCodeClient, pkceClient);
+        return new InMemoryRegisteredClientRepository(oidcClient, introspectClient, authCodeClient, pkceClient);
     }
 
     @Bean
